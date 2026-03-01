@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<!-- VIOLATION #1: No lang attribute on <html> -->
+<html>
+<head>
+  <!-- VIOLATION #1: No <title> element -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* ========================================
+       BROKEN PRODUCT PAGE - Workshop Exercise
+       This page contains 23 intentional
+       accessibility violations. Your job is
+       to find and fix every single one.
+       ======================================== */
+
+    /* VIOLATION #14: Removes ALL focus indicators globally */
+    *:focus {
+      outline: none;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    /* ---- Header ---- */
+    .site-header {
+      background: #1a1a2e;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: #6c63ff;
+    }
+
+    /* VIOLATION #4: Navigation links are divs, not <ul><li><a> */
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      color: #ccc;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover {
+      color: #fff;
+    }
+
+    .cart-icon {
+      position: relative;
+      cursor: pointer;
+      font-size: 1.3rem;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background: #6c63ff;
+      color: #fff;
+      font-size: 0.65rem;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    /* ---- Main Content ---- */
+    .page-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .product-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      .product-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ---- Product Images ---- */
+    .product-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .main-image {
+      width: 100%;
+      border-radius: 12px;
+      background: #fff;
+      padding: 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    .main-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .thumbnail-row {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .thumbnail {
+      width: 70px;
+      height: 70px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      background: #fff;
+      padding: 0.25rem;
+    }
+
+    .thumbnail:hover,
+    .thumbnail.active {
+      border-color: #6c63ff;
+    }
+
+    /* ---- Product Info ---- */
+    .product-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .breadcrumb {
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    .breadcrumb span {
+      cursor: pointer;
+    }
+
+    .breadcrumb span:hover {
+      text-decoration: underline;
+    }
+
+    .product-title {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #1a1a2e;
+    }
+
+    /* VIOLATION #12: Star rating uses color alone */
+    .star-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .star {
+      color: #fbbf24;
+      font-size: 1.2rem;
+    }
+
+    .star.empty {
+      color: #e5e7eb;
+    }
+
+    .review-count {
+      font-size: 0.85rem;
+      color: #888;
+      margin-left: 0.5rem;
+    }
+
+    /* VIOLATION #17: Price has aria-hidden="true" on visible content */
+    .price-section {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
+
+    .current-price {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+
+    .original-price {
+      font-size: 1.1rem;
+      color: #999;
+      text-decoration: line-through;
+    }
+
+    .discount-badge {
+      background: #dcfce7;
+      color: #16a34a;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* VIOLATION #11: Low contrast text */
+    .product-description {
+      font-size: 0.95rem;
+      color: #999;
+      line-height: 1.7;
+    }
+
+    /* VIOLATION #12: "In Stock" uses color alone */
+    .stock-status {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .stock-status.in-stock {
+      color: #16a34a;
+    }
+
+    /* ---- Color Selector ---- */
+    /* VIOLATION #13: Not keyboard accessible */
+    .color-selector {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .color-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #555;
+    }
+
+    .color-options {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    /* VIOLATION #23: Touch target too small (20x20px) */
+    .color-swatch {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .color-swatch:hover,
+    .color-swatch.selected {
+      border-color: #1a1a2e;
+      transform: scale(1.15);
+    }
+
+    /* ---- Add to Cart ---- */
+    .quantity-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .qty-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f3f4f6;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .qty-btn:hover {
+      background: #e5e7eb;
+    }
+
+    .qty-value {
+      width: 40px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      background: transparent;
+    }
+
+    /* VIOLATION #5: This is styled like a button but built as a div */
+    .add-to-cart-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2.5rem;
+      background: #6c63ff;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      user-select: none;
+    }
+
+    .add-to-cart-btn:hover {
+      background: #5a52d5;
+    }
+
+    .add-to-cart-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* ---- Cart notification ---- */
+    .cart-notification {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #1a1a2e;
+      color: #fff;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      z-index: 200;
+      animation: slideUp 0.3s ease;
+    }
+
+    .cart-notification.show {
+      display: flex;
+    }
+
+    /* ---- Decorative Divider ---- */
+    .divider {
+      margin: 3rem 0;
+      text-align: center;
+    }
+
+    /* ---- Accordion / FAQ ---- */
+    /* VIOLATION #18: No ARIA roles or states */
+    .accordion {
+      margin-bottom: 3rem;
+    }
+
+    .accordion-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #1a1a2e;
+    }
+
+    .accordion-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .accordion-header {
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #1a1a2e;
+      transition: background 0.2s;
+    }
+
+    .accordion-header:hover {
+      background: #f9fafb;
+    }
+
+    .accordion-icon {
+      transition: transform 0.2s;
+      font-size: 0.8rem;
+      color: #999;
+    }
+
+    .accordion-item.open .accordion-icon {
+      transform: rotate(180deg);
+    }
+
+    .accordion-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .accordion-panel-inner {
+      padding: 0 1.25rem 1rem;
+      font-size: 0.9rem;
+      color: #999;
+      line-height: 1.7;
+    }
+
+    .accordion-item.open .accordion-panel {
+      max-height: 500px;
+    }
+
+    /* ---- Reviews Section ---- */
+    .reviews-section {
+      margin-bottom: 3rem;
+    }
+
+    .reviews-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #1a1a2e;
+    }
+
+    .review-form {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      margin-bottom: 2rem;
+    }
+
+    .form-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1a1a2e;
+    }
+
+    .form-row {
+      margin-bottom: 1rem;
+    }
+
+    /* VIOLATION #8: Inputs rely on placeholder only, no <label> */
+    .form-input {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus {
+      border-color: #6c63ff;
+    }
+
+    .form-textarea {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 100px;
+      transition: border-color 0.2s;
+    }
+
+    .form-textarea:focus {
+      border-color: #6c63ff;
+    }
+
+    .form-error {
+      font-size: 0.8rem;
+      color: #ef4444;
+      margin-top: 0.3rem;
+      display: none;
+    }
+
+    .form-submit-btn {
+      padding: 0.7rem 2rem;
+      background: #6c63ff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .form-submit-btn:hover {
+      background: #5a52d5;
+    }
+
+    /* ---- Existing Reviews ---- */
+    .review-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .reviewer-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .review-date {
+      font-size: 0.8rem;
+      color: #999;
+    }
+
+    .review-stars {
+      display: flex;
+      gap: 0.15rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .review-text {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* ---- Modal / Quick View ---- */
+    /* VIOLATION #15: No focus management */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      animation: modalIn 0.3s ease;
+    }
+
+    /* VIOLATION #23: Close button too small */
+    .modal-close {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      color: #999;
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .modal-close:hover {
+      color: #333;
+    }
+
+    .modal-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #1a1a2e;
+    }
+
+    .modal-body {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    .modal-body img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .modal-footer {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+    }
+
+    .modal-btn {
+      padding: 0.6rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s;
+    }
+
+    .modal-btn-primary {
+      background: #6c63ff;
+      color: #fff;
+    }
+
+    .modal-btn-primary:hover {
+      background: #5a52d5;
+    }
+
+    .modal-btn-secondary {
+      background: #f3f4f6;
+      color: #333;
+    }
+
+    .modal-btn-secondary:hover {
+      background: #e5e7eb;
+    }
+
+    /* ---- Footer ---- */
+    .site-footer {
+      background: #1a1a2e;
+      color: #ccc;
+      padding: 3rem 2rem;
+      margin-top: 2rem;
+    }
+
+    .footer-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .footer-heading {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .footer-link {
+      color: #999;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .footer-link:hover {
+      color: #fff;
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    /* ---- Background animation ---- */
+    /* VIOLATION #20: No prefers-reduced-motion support */
+    .floating-shapes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.04;
+      background: #6c63ff;
+    }
+
+    .shape-1 {
+      width: 300px;
+      height: 300px;
+      top: 10%;
+      left: -5%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .shape-2 {
+      width: 200px;
+      height: 200px;
+      top: 60%;
+      right: -3%;
+      animation: float 6s ease-in-out infinite reverse;
+    }
+
+    .shape-3 {
+      width: 150px;
+      height: 150px;
+      bottom: 10%;
+      left: 30%;
+      animation: float 10s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(5deg); }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes modalIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /* ---- Quick View Button ---- */
+    .quick-view-btn {
+      padding: 0.5rem 1.25rem;
+      background: transparent;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: #555;
+      transition: all 0.2s;
+    }
+
+    .quick-view-btn:hover {
+      border-color: #6c63ff;
+      color: #6c63ff;
+    }
+
+    /* ---- Autoplay Video ---- */
+    /* VIOLATION #22: Autoplay with no pause control */
+    .promo-video-section {
+      margin-bottom: 3rem;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .promo-video-section video {
+      width: 100%;
+      display: block;
+    }
+
+    /* ---- Visually hidden (but we intentionally don't include a skip link) ---- */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- VIOLATION #16: No skip navigation link -->
+
+<!-- Background animation - VIOLATION #20 -->
+<div class="floating-shapes">
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+  <div class="shape shape-3"></div>
+</div>
+
+<!-- VIOLATION #2: Everything uses <div>, no semantic landmarks -->
+
+<!-- Header -->
+<div class="site-header">
+  <div class="logo">Sound<span>Max</span></div>
+
+  <!-- VIOLATION #4: Nav links as divs, not <nav><ul><li><a> -->
+  <div class="nav-links">
+    <div class="nav-link" onclick="location.href='#'">Home</div>
+    <div class="nav-link" onclick="location.href='#'">Products</div>
+    <div class="nav-link" onclick="location.href='#'">Support</div>
+    <div class="nav-link" onclick="location.href='#'">About</div>
+  </div>
+
+  <div class="cart-icon" onclick="openCart()">
+    &#128722;
+    <div class="cart-count" id="cartCount">0</div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="page-wrapper">
+  <div class="product-layout">
+
+    <!-- Product Gallery -->
+    <div class="product-gallery">
+      <div class="main-image">
+        <!-- VIOLATION #6: No alt attribute -->
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 500'%3E%3Crect fill='%23f0f0f5' width='600' height='500'/%3E%3Cellipse cx='300' cy='220' rx='160' ry='170' fill='%231a1a2e' opacity='0.9'/%3E%3Cellipse cx='300' cy='220' rx='120' ry='130' fill='%23252545'/%3E%3Cellipse cx='300' cy='220' rx='80' ry='85' fill='%231a1a2e'/%3E%3Crect x='140' y='50' width='320' height='30' rx='15' fill='%231a1a2e'/%3E%3Cellipse cx='210' cy='220' rx='35' ry='50' fill='%232a2a4a'/%3E%3Cellipse cx='390' cy='220' rx='35' ry='50' fill='%232a2a4a'/%3E%3Ctext x='300' y='420' text-anchor='middle' font-family='system-ui' font-size='24' fill='%236c63ff' font-weight='700'%3ESoundMax Pro%3C/text%3E%3Ctext x='300' y='450' text-anchor='middle' font-family='system-ui' font-size='14' fill='%23999'%3EWireless Over-Ear Headphones%3C/text%3E%3C/svg%3E"
+          width="600" height="500">
+      </div>
+
+      <div class="thumbnail-row">
+        <img class="thumbnail active" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 70'%3E%3Crect fill='%23f0f0f5' width='70' height='70' rx='4'/%3E%3Cellipse cx='35' cy='32' rx='18' ry='19' fill='%231a1a2e'/%3E%3Crect x='17' y='13' width='36' height='4' rx='2' fill='%231a1a2e'/%3E%3C/svg%3E"
+          width="70" height="70">
+        <img class="thumbnail" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 70'%3E%3Crect fill='%23f0f0f5' width='70' height='70' rx='4'/%3E%3Cellipse cx='35' cy='35' rx='20' ry='20' fill='%231a56db' opacity='0.3'/%3E%3Cellipse cx='35' cy='32' rx='15' ry='16' fill='%231a1a2e'/%3E%3C/svg%3E"
+          width="70" height="70">
+        <img class="thumbnail" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 70'%3E%3Crect fill='%23f0f0f5' width='70' height='70' rx='4'/%3E%3Crect x='15' y='20' width='40' height='30' rx='4' fill='%231a1a2e'/%3E%3Ccircle cx='35' cy='35' r='8' fill='%236c63ff' opacity='0.5'/%3E%3C/svg%3E"
+          width="70" height="70">
+      </div>
+
+      <button class="quick-view-btn" onclick="openModal()">Quick View &mdash; Full Details</button>
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info">
+      <div class="breadcrumb">
+        <span>Home</span> &rsaquo; <span>Audio</span> &rsaquo; <span>Headphones</span>
+      </div>
+
+      <!-- VIOLATION #3: Heading skips from h1 to h4 -->
+      <h1 class="product-title">SoundMax Pro Wireless Headphones</h1>
+
+      <!-- VIOLATION #12: Star rating uses color alone, no text equivalent -->
+      <div class="star-rating">
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star empty">&#9733;</span>
+        <span class="review-count">(128 reviews)</span>
+      </div>
+
+      <!-- VIOLATION #17: aria-hidden="true" on visible, critical price content -->
+      <div class="price-section" aria-hidden="true">
+        <span class="current-price">$249.99</span>
+        <span class="original-price">$349.99</span>
+        <span class="discount-badge">Save 29%</span>
+      </div>
+
+      <!-- VIOLATION #11: Low contrast text - #999 on #f8f9fa background -->
+      <p class="product-description">
+        Experience studio-quality sound with the SoundMax Pro. Featuring 40mm custom drivers,
+        active noise cancellation, and up to 30 hours of battery life. The ergonomic over-ear
+        design with memory foam cushions ensures all-day comfort. Bluetooth 5.3 with multipoint
+        connection lets you seamlessly switch between devices.
+      </p>
+
+      <!-- VIOLATION #12: Color-only stock status -->
+      <div class="stock-status in-stock">In Stock</div>
+
+      <!-- VIOLATION #13: Color selector not keyboard-accessible -->
+      <div class="color-selector">
+        <div class="color-label">Color: <span id="selectedColor">Midnight Black</span></div>
+        <div class="color-options">
+          <div class="color-swatch selected" style="background: #1a1a2e;" onclick="selectColor(this, 'Midnight Black')"></div>
+          <div class="color-swatch" style="background: #1a56db;" onclick="selectColor(this, 'Ocean Blue')"></div>
+          <div class="color-swatch" style="background: #dc2626;" onclick="selectColor(this, 'Ruby Red')"></div>
+          <div class="color-swatch" style="background: #f5f5f4;" onclick="selectColor(this, 'Cloud White')" ></div>
+        </div>
+      </div>
+
+      <div class="quantity-row">
+        <div class="quantity-control">
+          <button class="qty-btn" onclick="changeQty(-1)">-</button>
+          <input class="qty-value" type="text" value="1" id="qtyInput" readonly>
+          <button class="qty-btn" onclick="changeQty(1)">+</button>
+        </div>
+
+        <!-- VIOLATION #5: div used instead of button -->
+        <div class="add-to-cart-btn" onclick="addToCart()">
+          &#128722; Add to Cart
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIOLATION #7: Decorative image with redundant alt text -->
+  <div class="divider">
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 20'%3E%3Cline x1='0' y1='10' x2='600' y2='10' stroke='%23e5e7eb' stroke-width='1'/%3E%3Ccircle cx='300' cy='10' r='4' fill='%236c63ff'/%3E%3C/svg%3E"
+      alt="decorative-line.png" width="600" height="20" style="max-width:100%;height:auto;">
+  </div>
+
+  <!-- VIOLATION #22: Autoplay video with no pause control -->
+  <div class="promo-video-section">
+    <!-- Using a colored rectangle SVG as a "video" stand-in for the exercise -->
+    <video autoplay loop muted playsinline>
+      <!-- In a real scenario, this would be an actual video source -->
+      <!-- For the exercise, we simulate with a poster image -->
+    </video>
+    <div style="background: linear-gradient(135deg, #1a1a2e, #6c63ff); padding: 3rem; text-align: center; color: #fff;">
+      <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">Experience Pure Sound</div>
+      <div style="font-size: 0.95rem; opacity: 0.8;">Watch how SoundMax Pro delivers studio-quality audio anywhere.</div>
+      <!-- No pause/stop control provided -->
+    </div>
+  </div>
+
+  <!-- Accordion FAQ Section -->
+  <!-- VIOLATION #3: Heading jumps to h4 (skipping h2 and h3) -->
+  <!-- VIOLATION #18: No ARIA attributes on accordion -->
+  <div class="accordion">
+    <h4 class="accordion-title">Product Details</h4>
+
+    <div class="accordion-item" onclick="toggleAccordion(this)">
+      <div class="accordion-header">
+        Specifications
+        <span class="accordion-icon">&#9660;</span>
+      </div>
+      <div class="accordion-panel">
+        <div class="accordion-panel-inner">
+          <strong>Driver Size:</strong> 40mm custom dynamic<br>
+          <strong>Frequency Response:</strong> 20Hz - 20kHz<br>
+          <strong>Impedance:</strong> 32 ohms<br>
+          <strong>Battery Life:</strong> Up to 30 hours (ANC on)<br>
+          <strong>Bluetooth:</strong> 5.3 with multipoint<br>
+          <strong>Weight:</strong> 250g<br>
+          <strong>Charging:</strong> USB-C, 10 min = 3 hours playback
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item" onclick="toggleAccordion(this)">
+      <div class="accordion-header">
+        What's in the Box
+        <span class="accordion-icon">&#9660;</span>
+      </div>
+      <div class="accordion-panel">
+        <div class="accordion-panel-inner">
+          SoundMax Pro Headphones, USB-C charging cable, 3.5mm audio cable,
+          hard carrying case, quick start guide, and warranty card.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item" onclick="toggleAccordion(this)">
+      <div class="accordion-header">
+        Shipping & Returns
+        <span class="accordion-icon">&#9660;</span>
+      </div>
+      <div class="accordion-panel">
+        <div class="accordion-panel-inner">
+          Free shipping on all orders. 30-day hassle-free returns.
+          If you're not completely satisfied, return your headphones for a full refund.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reviews Section -->
+  <!-- VIOLATION #3: Heading jumps to h6 -->
+  <div class="reviews-section">
+    <h6 class="reviews-title">Customer Reviews</h6>
+
+    <!-- Review Form -->
+    <!-- VIOLATION #8: Inputs have no <label> elements -->
+    <!-- VIOLATION #9: Error messages not linked to inputs -->
+    <!-- VIOLATION #10: No accessible validation feedback -->
+    <div class="review-form">
+      <div class="form-title">Write a Review</div>
+
+      <div class="form-row">
+        <input type="email" class="form-input" placeholder="Your email address" id="reviewEmail">
+        <div class="form-error" id="emailError">Please enter a valid email address</div>
+      </div>
+
+      <div class="form-row">
+        <input type="text" class="form-input" placeholder="Review title" id="reviewTitle">
+        <div class="form-error" id="titleError">Please enter a review title</div>
+      </div>
+
+      <div class="form-row">
+        <textarea class="form-textarea" placeholder="Share your experience with this product..." id="reviewText"></textarea>
+        <div class="form-error" id="textError">Please write your review</div>
+      </div>
+
+      <button class="form-submit-btn" onclick="submitReview()">Submit Review</button>
+    </div>
+
+    <!-- VIOLATION #19: Dynamic content area with no aria-live -->
+    <div id="reviewsList">
+      <div class="review-card">
+        <div class="review-header">
+          <span class="reviewer-name">Sarah M.</span>
+          <span class="review-date">Feb 15, 2026</span>
+        </div>
+        <div class="review-stars">
+          <span class="star">&#9733;</span>
+          <span class="star">&#9733;</span>
+          <span class="star">&#9733;</span>
+          <span class="star">&#9733;</span>
+          <span class="star">&#9733;</span>
+        </div>
+        <p class="review-text">
+          Absolutely love these headphones! The noise cancellation is incredible
+          and the battery lasts forever. Best purchase I've made this year.
+        </p>
+      </div>
+
+      <div class="review-card">
+        <div class="review-header">
+          <span class="reviewer-name">James K.</span>
+          <span class="review-date">Feb 10, 2026</span>
+        </div>
+        <div class="review-stars">
+          <span class="star">&#9733;</span>
+          <span class="star">&#9733;</span>
+          <span class="star">&#9733;</span>
+          <span class="star">&#9733;</span>
+          <span class="star empty">&#9733;</span>
+        </div>
+        <p class="review-text">
+          Great sound quality and super comfortable. Only reason for 4 stars
+          instead of 5 is the app could use some UX improvements. But the
+          headphones themselves are fantastic.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VIOLATION #2: Footer is a div, not <footer> -->
+<!-- VIOLATION #21: Vague link text -->
+<div class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-heading">Company</div>
+      <div class="footer-links">
+        <!-- VIOLATION #21: "Click here" links with no context -->
+        <div class="footer-link" onclick="location.href='#'">Click here</div>
+        <div class="footer-link" onclick="location.href='#'">Read more</div>
+        <div class="footer-link" onclick="location.href='#'">Click here</div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-heading">Support</div>
+      <div class="footer-links">
+        <div class="footer-link" onclick="location.href='#'">Contact</div>
+        <div class="footer-link" onclick="location.href='#'">FAQ</div>
+        <div class="footer-link" onclick="location.href='#'">Returns</div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-heading">Legal</div>
+      <div class="footer-links">
+        <div class="footer-link" onclick="location.href='#'">Read more</div>
+        <div class="footer-link" onclick="location.href='#'">Click here</div>
+        <div class="footer-link" onclick="location.href='#'">Read more</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2026 SoundMax. All rights reserved.
+  </div>
+</div>
+
+<!-- VIOLATION #15: Modal with no focus management -->
+<!-- VIOLATION #16: aria-hidden on interactive content inside -->
+<div class="modal-overlay" id="quickViewModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-title">SoundMax Pro — Quick View</div>
+    <div class="modal-body">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 300'%3E%3Crect fill='%23f0f0f5' width='500' height='300' rx='8'/%3E%3Cellipse cx='250' cy='140' rx='100' ry='110' fill='%231a1a2e' opacity='0.9'/%3E%3Cellipse cx='250' cy='140' rx='70' ry='80' fill='%23252545'/%3E%3Crect x='150' y='40' width='200' height='20' rx='10' fill='%231a1a2e'/%3E%3Ctext x='250' y='260' text-anchor='middle' font-family='system-ui' font-size='16' fill='%236c63ff' font-weight='600'%3E360%C2%B0 View%3C/text%3E%3C/svg%3E"
+        alt="product quick view image" width="500" height="300">
+      <p>Premium wireless headphones with active noise cancellation, 30-hour battery,
+        and studio-quality sound. Available in 4 colors.</p>
+      <!-- VIOLATION #16: aria-hidden="true" on interactive buttons -->
+      <div class="modal-footer" aria-hidden="true">
+        <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Close</button>
+        <button class="modal-btn modal-btn-primary" onclick="addToCart(); closeModal();">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VIOLATION #19: No aria-live region for dynamic cart updates -->
+<div class="cart-notification" id="cartNotification">
+  &#10003; Added to cart!
+</div>
+
+<script>
+  // ---- Color Selector ----
+  // VIOLATION #13: Click only, no keyboard support
+  function selectColor(element, colorName) {
+    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+    element.classList.add('selected');
+    document.getElementById('selectedColor').textContent = colorName;
+  }
+
+  // ---- Quantity ----
+  function changeQty(delta) {
+    const input = document.getElementById('qtyInput');
+    let val = parseInt(input.value) || 1;
+    val = Math.max(1, Math.min(10, val + delta));
+    input.value = val;
+  }
+
+  // ---- Add to Cart ----
+  // VIOLATION #19: No screen reader announcement
+  function addToCart() {
+    const count = document.getElementById('cartCount');
+    const qty = parseInt(document.getElementById('qtyInput').value) || 1;
+    count.textContent = parseInt(count.textContent) + qty;
+
+    // Show visual notification (not announced to screen readers)
+    const notification = document.getElementById('cartNotification');
+    notification.classList.add('show');
+    setTimeout(() => notification.classList.remove('show'), 2500);
+  }
+
+  // ---- Accordion ----
+  // VIOLATION #18: No ARIA, no keyboard support
+  function toggleAccordion(item) {
+    item.classList.toggle('open');
+  }
+
+  // ---- Modal ----
+  // VIOLATION #15: No focus trap, no escape key, no focus return
+  function openModal() {
+    document.getElementById('quickViewModal').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('quickViewModal').classList.remove('open');
+  }
+
+  // ---- Review Form ----
+  // VIOLATION #9, #10: Error messages not linked, no accessible feedback
+  function submitReview() {
+    const email = document.getElementById('reviewEmail').value;
+    const title = document.getElementById('reviewTitle').value;
+    const text = document.getElementById('reviewText').value;
+    let hasError = false;
+
+    // Reset errors
+    document.querySelectorAll('.form-error').forEach(e => e.style.display = 'none');
+
+    if (!email || !email.includes('@')) {
+      document.getElementById('emailError').style.display = 'block';
+      hasError = true;
+    }
+
+    if (!title.trim()) {
+      document.getElementById('titleError').style.display = 'block';
+      hasError = true;
+    }
+
+    if (!text.trim()) {
+      document.getElementById('textError').style.display = 'block';
+      hasError = true;
+    }
+
+    if (hasError) return;
+
+    // Add review to page (VIOLATION #19: not announced via aria-live)
+    const reviewsList = document.getElementById('reviewsList');
+    const newReview = document.createElement('div');
+    newReview.className = 'review-card';
+    newReview.innerHTML = `
+      <div class="review-header">
+        <span class="reviewer-name">You</span>
+        <span class="review-date">Just now</span>
+      </div>
+      <div class="review-stars">
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+        <span class="star">&#9733;</span>
+      </div>
+      <p class="review-text">${text}</p>
+    `;
+    reviewsList.insertBefore(newReview, reviewsList.firstChild);
+
+    // Clear form
+    document.getElementById('reviewEmail').value = '';
+    document.getElementById('reviewTitle').value = '';
+    document.getElementById('reviewText').value = '';
+  }
+
+  function openCart() {
+    alert('Cart page would open here.');
+  }
+</script>
+
+</body>
+</html>

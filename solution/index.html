@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<!-- FIX #1: Added lang attribute so screen readers know what language to use for pronunciation -->
+<html lang="en">
+<head>
+  <!-- FIX #1: Added descriptive <title> so browser tabs and screen readers identify the page -->
+  <title>SoundMax Pro Wireless Headphones — SoundMax Audio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* ========================================
+       FIXED PRODUCT PAGE - Workshop Solution
+       Every fix is annotated with a comment
+       explaining what was wrong and why the
+       fix matters for real users.
+       ======================================== */
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    /*
+      FIX #14: REMOVED the global *:focus { outline: none; } rule.
+      Instead, we use :focus-visible which shows focus rings only for
+      keyboard navigation, not mouse clicks. This gives keyboard users
+      the visibility they need without the visual noise designers dislike.
+    */
+    *:focus-visible {
+      outline: 2px solid #6c63ff;
+      outline-offset: 2px;
+    }
+
+    /* Utility: hide content visually but keep it accessible to screen readers */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    /*
+      FIX #16: Skip navigation link.
+      This is the first focusable element on the page. It is visually
+      hidden until focused, then slides into view. Screen reader users
+      and keyboard users can press Tab once and jump straight to main
+      content, bypassing all header/nav links.
+    */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      padding: 0.85rem 1.75rem;
+      background: #1a1a2e;
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      z-index: 1000;
+      text-decoration: none;
+      border-radius: 0 0 8px 0;
+      transition: top 0.15s ease;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* ---- Header ---- */
+    .site-header {
+      background: #1a1a2e;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .logo a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: #6c63ff;
+    }
+
+    /*
+      FIX #4: Navigation is now a proper <nav> with <ul>/<li>/<a>.
+      Screen readers announce "navigation" landmark and list with item count.
+      Links are now focusable and activated with Enter.
+    */
+    .nav-list {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-list a {
+      color: #ccc;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: color 0.2s;
+      padding: 0.25rem 0;
+    }
+
+    .nav-list a:hover,
+    .nav-list a:focus {
+      color: #fff;
+    }
+
+    .cart-link {
+      position: relative;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.3rem;
+      padding: 0.25rem;
+      /* FIX #23: Ensure minimum 44x44 touch target on the cart icon */
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -2px;
+      right: -4px;
+      background: #6c63ff;
+      color: #fff;
+      font-size: 0.65rem;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    /* ---- Main Content ---- */
+    .page-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .product-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      .product-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ---- Product Images ---- */
+    .product-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .main-image {
+      width: 100%;
+      border-radius: 12px;
+      background: #fff;
+      padding: 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    .main-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .thumbnail-row {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .thumbnail {
+      width: 70px;
+      height: 70px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      background: #fff;
+      padding: 0.25rem;
+    }
+
+    .thumbnail:hover,
+    .thumbnail.active {
+      border-color: #6c63ff;
+    }
+
+    /* ---- Product Info ---- */
+    .product-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .breadcrumb {
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    .breadcrumb a {
+      color: #555;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover,
+    .breadcrumb a:focus {
+      text-decoration: underline;
+      color: #6c63ff;
+    }
+
+    .product-title {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #1a1a2e;
+    }
+
+    /*
+      FIX #12: Star rating now includes visible text "(4 out of 5 stars)"
+      in addition to the colored stars, so color-blind users get the info.
+      The individual star characters also have aria-hidden="true" since the
+      text label conveys the same information.
+    */
+    .star-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .star {
+      color: #fbbf24;
+      font-size: 1.2rem;
+    }
+
+    .star.empty {
+      color: #e5e7eb;
+    }
+
+    .rating-text {
+      font-size: 0.85rem;
+      color: #555;
+      margin-left: 0.5rem;
+      font-weight: 600;
+    }
+
+    .review-count {
+      font-size: 0.85rem;
+      color: #555;
+      margin-left: 0.25rem;
+    }
+
+    /* FIX #17: Removed aria-hidden="true" from price section */
+    .price-section {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
+
+    .current-price {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+
+    .original-price {
+      font-size: 1.1rem;
+      color: #666;
+      text-decoration: line-through;
+    }
+
+    .discount-badge {
+      background: #dcfce7;
+      color: #15803d;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /*
+      FIX #11: Changed product description color from #999 (contrast ~2.8:1)
+      to #4b5563 (contrast ~7.5:1 on white). WCAG AA requires 4.5:1 for
+      normal text. Now readable for users with low vision.
+    */
+    .product-description {
+      font-size: 0.95rem;
+      color: #4b5563;
+      line-height: 1.7;
+    }
+
+    /*
+      FIX #12: Stock status now has a checkmark icon in addition to
+      green color, so color-blind users can identify the status.
+    */
+    .stock-status {
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .stock-status.in-stock {
+      color: #15803d;
+    }
+
+    .stock-icon {
+      font-size: 1rem;
+    }
+
+    /* ---- Color Selector ---- */
+    /*
+      FIX #13: Color selector now uses native <input type="radio"> elements
+      inside a <fieldset> with a <legend>. This provides:
+      - Keyboard navigation with arrow keys (native radio group behavior)
+      - Screen reader announcement of selected state
+      - Proper grouping and labeling via fieldset/legend
+      The actual radio inputs are visually hidden; the visual swatch is the label.
+    */
+    .color-fieldset {
+      border: none;
+      padding: 0;
+    }
+
+    .color-fieldset legend {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 0.5rem;
+    }
+
+    .color-options {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .color-option {
+      position: relative;
+    }
+
+    .color-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    /*
+      FIX #23: Color swatches are now 36x36px (was 20x20px).
+      WCAG 2.5.8 requires a minimum 24x24px target size.
+      We go larger for better usability.
+    */
+    .color-swatch-label {
+      display: block;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .color-option input[type="radio"]:checked + .color-swatch-label {
+      border-color: #1a1a2e;
+      transform: scale(1.1);
+    }
+
+    .color-option input[type="radio"]:focus-visible + .color-swatch-label {
+      outline: 2px solid #6c63ff;
+      outline-offset: 2px;
+    }
+
+    .color-swatch-label:hover {
+      transform: scale(1.1);
+    }
+
+    /* ---- Add to Cart ---- */
+    .quantity-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .qty-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f3f4f6;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .qty-btn:hover {
+      background: #e5e7eb;
+    }
+
+    .qty-value {
+      width: 40px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      background: transparent;
+    }
+
+    /*
+      FIX #5: "Add to Cart" is now a proper <button> element.
+      Native buttons are:
+      - Focusable via Tab
+      - Activated with Enter or Space
+      - Announced as "button" by screen readers
+      A <div onclick> is none of these things.
+    */
+    .add-to-cart-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2.5rem;
+      background: #6c63ff;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .add-to-cart-btn:hover {
+      background: #5a52d5;
+    }
+
+    .add-to-cart-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* ---- Cart notification ---- */
+    .cart-notification {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #1a1a2e;
+      color: #fff;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      z-index: 200;
+      animation: slideUp 0.3s ease;
+    }
+
+    .cart-notification.show {
+      display: flex;
+    }
+
+    /* ---- Decorative Divider ---- */
+    .divider {
+      margin: 3rem 0;
+      text-align: center;
+    }
+
+    /* ---- Accordion / FAQ ---- */
+    /*
+      FIX #18: Accordion now uses proper ARIA pattern:
+      - Each trigger is a <button> inside a heading element
+      - aria-expanded indicates open/closed state
+      - aria-controls links the button to its panel
+      - Panels have role="region" and aria-labelledby
+      - hidden attribute controls visibility (instead of CSS max-height tricks)
+    */
+    .accordion {
+      margin-bottom: 3rem;
+    }
+
+    .accordion-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #1a1a2e;
+    }
+
+    .accordion-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .accordion-heading {
+      margin: 0;
+    }
+
+    .accordion-trigger {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #1a1a2e;
+      background: none;
+      border: none;
+      font-family: inherit;
+      text-align: left;
+      transition: background 0.2s;
+    }
+
+    .accordion-trigger:hover {
+      background: #f9fafb;
+    }
+
+    .accordion-icon {
+      transition: transform 0.2s;
+      font-size: 0.8rem;
+      color: #999;
+    }
+
+    .accordion-trigger[aria-expanded="true"] .accordion-icon {
+      transform: rotate(180deg);
+    }
+
+    .accordion-panel {
+      overflow: hidden;
+    }
+
+    .accordion-panel-inner {
+      padding: 0 1.25rem 1rem;
+      font-size: 0.9rem;
+      /* FIX #11: Changed from #999 to #4b5563 for proper contrast */
+      color: #4b5563;
+      line-height: 1.7;
+    }
+
+    /* ---- Reviews Section ---- */
+    .reviews-section {
+      margin-bottom: 3rem;
+    }
+
+    .reviews-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #1a1a2e;
+    }
+
+    .review-form {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      margin-bottom: 2rem;
+    }
+
+    .form-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1a1a2e;
+    }
+
+    .form-row {
+      margin-bottom: 1rem;
+    }
+
+    /*
+      FIX #8: Every input now has a visible <label> element
+      associated via the for/id attribute pair. This means:
+      - Screen readers announce what each field is for
+      - Clicking the label focuses the input (larger click target)
+      - The label persists even when the user starts typing
+        (unlike placeholder text which disappears)
+    */
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 0.3rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus {
+      border-color: #6c63ff;
+      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+    }
+
+    .form-textarea {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 100px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-textarea:focus {
+      border-color: #6c63ff;
+      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+    }
+
+    /*
+      FIX #9: Error messages are linked to inputs via aria-describedby.
+      When a screen reader focuses the input, it reads the label AND
+      the error message. The user knows exactly what is wrong.
+
+      FIX #12: Error messages now include an icon alongside the red
+      color, so color-blind users can identify errors without color.
+    */
+    .form-error {
+      font-size: 0.8rem;
+      color: #dc2626;
+      margin-top: 0.3rem;
+      display: none;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .form-error.visible {
+      display: flex;
+    }
+
+    .form-error-icon {
+      font-size: 0.85rem;
+    }
+
+    /* Inputs in error state get a red border */
+    .form-input[aria-invalid="true"],
+    .form-textarea[aria-invalid="true"] {
+      border-color: #dc2626;
+    }
+
+    .form-submit-btn {
+      padding: 0.7rem 2rem;
+      background: #6c63ff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+
+    .form-submit-btn:hover {
+      background: #5a52d5;
+    }
+
+    /*
+      FIX #10: Success message styling for form submission feedback.
+      Combined with aria-live="polite" on the container, screen readers
+      will announce the success message automatically.
+    */
+    .form-success {
+      padding: 0.85rem 1rem;
+      background: #dcfce7;
+      color: #15803d;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-success.visible {
+      display: flex;
+    }
+
+    /* ---- Existing Reviews ---- */
+    .review-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .reviewer-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .review-date {
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    .review-stars {
+      display: flex;
+      gap: 0.15rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .review-text {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* ---- Modal / Quick View ---- */
+    /*
+      FIX #15: Modal now has proper focus management:
+      - Focus moves into the modal when opened
+      - Tab is trapped within the modal (cannot escape to page behind)
+      - Escape key closes the modal
+      - Focus returns to the trigger element on close
+      Uses role="dialog" and aria-modal="true" and aria-labelledby.
+    */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      animation: modalIn 0.3s ease;
+    }
+
+    /*
+      FIX #23: Close button is now 44x44px minimum touch target (was 16x16px).
+      Even though the X glyph is small, the button itself is large enough
+      for comfortable tapping on touch devices and for users with motor
+      impairments.
+    */
+    .modal-close {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      color: #999;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .modal-close:hover {
+      color: #333;
+      background: #f3f4f6;
+    }
+
+    .modal-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #1a1a2e;
+    }
+
+    .modal-body {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    .modal-body img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .modal-footer {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+    }
+
+    .modal-btn {
+      padding: 0.6rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+
+    .modal-btn-primary {
+      background: #6c63ff;
+      color: #fff;
+    }
+
+    .modal-btn-primary:hover {
+      background: #5a52d5;
+    }
+
+    .modal-btn-secondary {
+      background: #f3f4f6;
+      color: #333;
+    }
+
+    .modal-btn-secondary:hover {
+      background: #e5e7eb;
+    }
+
+    /* ---- Footer ---- */
+    .site-footer {
+      background: #1a1a2e;
+      color: #ccc;
+      padding: 3rem 2rem;
+      margin-top: 2rem;
+    }
+
+    .footer-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .footer-heading {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    /*
+      FIX #4 & #21: Footer links are now proper <a> elements inside
+      <ul>/<li> structure, and have descriptive text instead of
+      "Click here" or "Read more."
+    */
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: #aaa;
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover,
+    .footer-links a:focus {
+      color: #fff;
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    /* ---- Background animation ---- */
+    .floating-shapes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.04;
+      background: #6c63ff;
+    }
+
+    .shape-1 {
+      width: 300px;
+      height: 300px;
+      top: 10%;
+      left: -5%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .shape-2 {
+      width: 200px;
+      height: 200px;
+      top: 60%;
+      right: -3%;
+      animation: float 6s ease-in-out infinite reverse;
+    }
+
+    .shape-3 {
+      width: 150px;
+      height: 150px;
+      bottom: 10%;
+      left: 30%;
+      animation: float 10s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(5deg); }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes modalIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /*
+      FIX #20: prefers-reduced-motion support.
+      Users who have set "reduce motion" in their OS settings
+      experience no animations. This prevents nausea, dizziness,
+      and seizures for users with vestibular disorders.
+    */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* ---- Quick View Button ---- */
+    .quick-view-btn {
+      padding: 0.5rem 1.25rem;
+      background: transparent;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: #555;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .quick-view-btn:hover {
+      border-color: #6c63ff;
+      color: #6c63ff;
+    }
+
+    /* ---- Promo Section (replaced autoplay video) ---- */
+    /*
+      FIX #22: Autoplay video replaced with static content and a
+      play button that gives the user control. If a video is used,
+      it must not autoplay and must have pause/stop controls.
+    */
+    .promo-section {
+      margin-bottom: 3rem;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .promo-content {
+      background: linear-gradient(135deg, #1a1a2e, #6c63ff);
+      padding: 3rem;
+      text-align: center;
+      color: #fff;
+    }
+
+    .promo-heading {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .promo-text {
+      font-size: 0.95rem;
+      opacity: 0.9;
+      margin-bottom: 1.25rem;
+    }
+
+    .play-video-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.5rem;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+
+    .play-video-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* ---- Divider ---- */
+    .divider {
+      margin: 3rem 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<!--
+  FIX #16: Skip navigation link.
+  This must be the FIRST focusable element in the DOM.
+  Keyboard users press Tab once and can jump over all
+  header/navigation links straight to main content.
+-->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- FIX #20: Background animation respects prefers-reduced-motion via CSS above -->
+<div class="floating-shapes" aria-hidden="true">
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+  <div class="shape shape-3"></div>
+</div>
+
+<!--
+  FIX #2: All structural divs replaced with semantic HTML landmarks.
+  Screen readers announce these as navigation regions, allowing users
+  to jump directly between major page sections.
+-->
+
+<!-- FIX #2: <header> landmark (was <div>) -->
+<header class="site-header">
+  <div class="logo">
+    <!-- Logo is a link to homepage -->
+    <a href="/">Sound<span>Max</span></a>
+  </div>
+
+  <!--
+    FIX #4: Navigation is now:
+    - Wrapped in <nav> with aria-label (landmark)
+    - Links are <a> inside <li> inside <ul>
+    - Screen reader announces "navigation, list, 4 items"
+    - All links are focusable and activated with Enter
+  -->
+  <nav aria-label="Main navigation">
+    <ul class="nav-list">
+      <li><a href="/">Home</a></li>
+      <li><a href="/products">Products</a></li>
+      <li><a href="/support">Support</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </nav>
+
+  <!--
+    FIX #5 & #23: Cart icon is now a proper <a> link with aria-label
+    describing its purpose. The link has a 44x44px minimum touch target.
+  -->
+  <a href="/cart" class="cart-link" aria-label="Shopping cart, 0 items">
+    &#128722;
+    <span class="cart-count" id="cartCount">0</span>
+  </a>
+</header>
+
+<!-- FIX #2: <main> landmark with id for skip link target -->
+<main id="main-content" class="page-wrapper">
+  <div class="product-layout">
+
+    <!-- Product Gallery -->
+    <div class="product-gallery">
+      <div class="main-image">
+        <!--
+          FIX #6: Added descriptive alt text.
+          The alt text describes what the product looks like because that
+          is the information conveyed by the image. A blind user hearing
+          this description can form a mental picture of the product.
+        -->
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 500'%3E%3Crect fill='%23f0f0f5' width='600' height='500'/%3E%3Cellipse cx='300' cy='220' rx='160' ry='170' fill='%231a1a2e' opacity='0.9'/%3E%3Cellipse cx='300' cy='220' rx='120' ry='130' fill='%23252545'/%3E%3Cellipse cx='300' cy='220' rx='80' ry='85' fill='%231a1a2e'/%3E%3Crect x='140' y='50' width='320' height='30' rx='15' fill='%231a1a2e'/%3E%3Cellipse cx='210' cy='220' rx='35' ry='50' fill='%232a2a4a'/%3E%3Cellipse cx='390' cy='220' rx='35' ry='50' fill='%232a2a4a'/%3E%3Ctext x='300' y='420' text-anchor='middle' font-family='system-ui' font-size='24' fill='%236c63ff' font-weight='700'%3ESoundMax Pro%3C/text%3E%3Ctext x='300' y='450' text-anchor='middle' font-family='system-ui' font-size='14' fill='%23999'%3EWireless Over-Ear Headphones%3C/text%3E%3C/svg%3E"
+          alt="SoundMax Pro wireless over-ear headphones in midnight black, showing cushioned ear cups and adjustable headband"
+          width="600" height="500">
+      </div>
+
+      <div class="thumbnail-row">
+        <!-- Thumbnails have alt text describing the view they represent -->
+        <img class="thumbnail active"
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 70'%3E%3Crect fill='%23f0f0f5' width='70' height='70' rx='4'/%3E%3Cellipse cx='35' cy='32' rx='18' ry='19' fill='%231a1a2e'/%3E%3Crect x='17' y='13' width='36' height='4' rx='2' fill='%231a1a2e'/%3E%3C/svg%3E"
+          alt="Front view" width="70" height="70">
+        <img class="thumbnail"
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 70'%3E%3Crect fill='%23f0f0f5' width='70' height='70' rx='4'/%3E%3Cellipse cx='35' cy='35' rx='20' ry='20' fill='%231a56db' opacity='0.3'/%3E%3Cellipse cx='35' cy='32' rx='15' ry='16' fill='%231a1a2e'/%3E%3C/svg%3E"
+          alt="Side view" width="70" height="70">
+        <img class="thumbnail"
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 70'%3E%3Crect fill='%23f0f0f5' width='70' height='70' rx='4'/%3E%3Crect x='15' y='20' width='40' height='30' rx='4' fill='%231a1a2e'/%3E%3Ccircle cx='35' cy='35' r='8' fill='%236c63ff' opacity='0.5'/%3E%3C/svg%3E"
+          alt="Ear cup detail" width="70" height="70">
+      </div>
+
+      <button class="quick-view-btn" id="quickViewTrigger" onclick="openModal()">
+        Quick View &mdash; Full Details
+      </button>
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info">
+      <!--
+        Breadcrumb links are now proper <a> elements inside a <nav>
+        with aria-label="Breadcrumb" so screen readers can identify it.
+      -->
+      <nav aria-label="Breadcrumb" class="breadcrumb">
+        <a href="/">Home</a> &rsaquo;
+        <a href="/audio">Audio</a> &rsaquo;
+        <span aria-current="page">Headphones</span>
+      </nav>
+
+      <h1 class="product-title">SoundMax Pro Wireless Headphones</h1>
+
+      <!--
+        FIX #12: Star rating now has:
+        - aria-label on the container with the rating value as text
+        - Visible "(4 out of 5)" text for sighted color-blind users
+        - Individual stars are aria-hidden since the label conveys the info
+      -->
+      <div class="star-rating" role="img" aria-label="Rated 4 out of 5 stars, based on 128 reviews">
+        <span class="star" aria-hidden="true">&#9733;</span>
+        <span class="star" aria-hidden="true">&#9733;</span>
+        <span class="star" aria-hidden="true">&#9733;</span>
+        <span class="star" aria-hidden="true">&#9733;</span>
+        <span class="star empty" aria-hidden="true">&#9733;</span>
+        <span class="rating-text">4 out of 5</span>
+        <span class="review-count">(128 reviews)</span>
+      </div>
+
+      <!--
+        FIX #17: REMOVED aria-hidden="true" from the price section.
+        aria-hidden="true" hides content from screen readers. The PRICE
+        is critical information -- a blind user MUST be able to hear it.
+        Never put aria-hidden on visible, meaningful content.
+      -->
+      <div class="price-section">
+        <span class="current-price">$249.99</span>
+        <span class="original-price"><span class="visually-hidden">Original price: </span>$349.99</span>
+        <span class="discount-badge">Save 29%</span>
+      </div>
+
+      <!--
+        FIX #11: Changed color from #999 (contrast ~2.8:1) to #4b5563
+        (contrast ~7.5:1). WCAG AA requires 4.5:1 for normal text.
+      -->
+      <p class="product-description">
+        Experience studio-quality sound with the SoundMax Pro. Featuring 40mm custom drivers,
+        active noise cancellation, and up to 30 hours of battery life. The ergonomic over-ear
+        design with memory foam cushions ensures all-day comfort. Bluetooth 5.3 with multipoint
+        connection lets you seamlessly switch between devices.
+      </p>
+
+      <!--
+        FIX #12: Stock status now has a checkmark icon in addition to
+        green color. Color-blind users can see the icon. Screen reader
+        users hear "In Stock" announced.
+      -->
+      <div class="stock-status in-stock">
+        <span class="stock-icon" aria-hidden="true">&#10003;</span> In Stock
+      </div>
+
+      <!--
+        FIX #13: Color selector now uses native radio inputs inside a
+        fieldset/legend. This provides:
+        - Keyboard navigation with arrow keys (native radio group behavior)
+        - Proper grouping announced by screen readers
+        - Selected state automatically tracked and announced
+        No custom ARIA needed -- native HTML does the job.
+      -->
+      <fieldset class="color-fieldset">
+        <legend>Color: <span id="selectedColor">Midnight Black</span></legend>
+        <div class="color-options">
+          <label class="color-option">
+            <input type="radio" name="color" value="Midnight Black" checked
+              onchange="updateColorLabel(this.value)">
+            <span class="color-swatch-label" style="background: #1a1a2e;"
+              aria-label="Midnight Black"></span>
+          </label>
+          <label class="color-option">
+            <input type="radio" name="color" value="Ocean Blue"
+              onchange="updateColorLabel(this.value)">
+            <span class="color-swatch-label" style="background: #1a56db;"
+              aria-label="Ocean Blue"></span>
+          </label>
+          <label class="color-option">
+            <input type="radio" name="color" value="Ruby Red"
+              onchange="updateColorLabel(this.value)">
+            <span class="color-swatch-label" style="background: #dc2626;"
+              aria-label="Ruby Red"></span>
+          </label>
+          <label class="color-option">
+            <input type="radio" name="color" value="Cloud White"
+              onchange="updateColorLabel(this.value)">
+            <span class="color-swatch-label" style="background: #f5f5f4; border: 1px solid #ddd;"
+              aria-label="Cloud White"></span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="quantity-row">
+        <div class="quantity-control">
+          <button class="qty-btn" onclick="changeQty(-1)" aria-label="Decrease quantity">-</button>
+          <input class="qty-value" type="text" value="1" id="qtyInput" readonly
+            aria-label="Quantity" role="spinbutton" aria-valuenow="1" aria-valuemin="1" aria-valuemax="10">
+          <button class="qty-btn" onclick="changeQty(1)" aria-label="Increase quantity">+</button>
+        </div>
+
+        <!--
+          FIX #5: "Add to Cart" is now a proper <button> element.
+          A native <button>:
+          - Is focusable via Tab (without tabindex)
+          - Responds to Enter and Space (without onkeydown hacks)
+          - Is announced as "button" by screen readers
+          A <div onclick> has NONE of these behaviors.
+        -->
+        <button type="button" class="add-to-cart-btn" onclick="addToCart()">
+          <span aria-hidden="true">&#128722;</span> Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!--
+    FIX #7: Decorative image now has alt="" (empty string).
+    This tells screen readers to skip it entirely.
+    The old alt="decorative-line.png" caused screen readers to
+    announce a meaningless filename, adding confusion.
+  -->
+  <div class="divider">
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 20'%3E%3Cline x1='0' y1='10' x2='600' y2='10' stroke='%23e5e7eb' stroke-width='1'/%3E%3Ccircle cx='300' cy='10' r='4' fill='%236c63ff'/%3E%3C/svg%3E"
+      alt="" role="presentation" width="600" height="20" style="max-width:100%;height:auto;">
+  </div>
+
+  <!--
+    FIX #22: Autoplay video replaced with a static promo section
+    that has a "Watch video" button giving the user control.
+    Users should never be forced to watch/listen to auto-playing media.
+    This also satisfies prefers-reduced-motion since there is no motion
+    until the user explicitly requests it.
+  -->
+  <section class="promo-section" aria-label="Product video">
+    <div class="promo-content">
+      <h2 class="promo-heading">Experience Pure Sound</h2>
+      <p class="promo-text">See how SoundMax Pro delivers studio-quality audio anywhere.</p>
+      <button class="play-video-btn" onclick="alert('Video player would open here with full controls including pause, stop, captions, and volume.')">
+        &#9654; Watch Video
+      </button>
+    </div>
+  </section>
+
+  <!--
+    FIX #3: Changed h4 to h2 for correct heading hierarchy (h1 > h2 > h3).
+    Screen reader users navigate by heading. Skipped levels create a broken
+    outline that makes the page structure confusing and hard to navigate.
+
+    FIX #18: Accordion now uses the WAI-ARIA Authoring Practices pattern:
+    - Each trigger is a <button> inside a heading (<h3>)
+    - aria-expanded="true/false" announces the open/close state
+    - aria-controls links each button to its panel by ID
+    - Panels have role="region" and aria-labelledby linking back to the trigger
+    - The hidden attribute controls visibility semantically
+  -->
+  <section class="accordion" aria-label="Product details">
+    <h2 class="accordion-title">Product Details</h2>
+
+    <div class="accordion-item">
+      <h3 class="accordion-heading">
+        <button class="accordion-trigger"
+          aria-expanded="false"
+          aria-controls="panel-specs"
+          id="trigger-specs"
+          onclick="toggleAccordion(this)">
+          Specifications
+          <span class="accordion-icon" aria-hidden="true">&#9660;</span>
+        </button>
+      </h3>
+      <div class="accordion-panel"
+        id="panel-specs"
+        role="region"
+        aria-labelledby="trigger-specs"
+        hidden>
+        <div class="accordion-panel-inner">
+          <strong>Driver Size:</strong> 40mm custom dynamic<br>
+          <strong>Frequency Response:</strong> 20Hz - 20kHz<br>
+          <strong>Impedance:</strong> 32 ohms<br>
+          <strong>Battery Life:</strong> Up to 30 hours (ANC on)<br>
+          <strong>Bluetooth:</strong> 5.3 with multipoint<br>
+          <strong>Weight:</strong> 250g<br>
+          <strong>Charging:</strong> USB-C, 10 min = 3 hours playback
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h3 class="accordion-heading">
+        <button class="accordion-trigger"
+          aria-expanded="false"
+          aria-controls="panel-box"
+          id="trigger-box"
+          onclick="toggleAccordion(this)">
+          What's in the Box
+          <span class="accordion-icon" aria-hidden="true">&#9660;</span>
+        </button>
+      </h3>
+      <div class="accordion-panel"
+        id="panel-box"
+        role="region"
+        aria-labelledby="trigger-box"
+        hidden>
+        <div class="accordion-panel-inner">
+          SoundMax Pro Headphones, USB-C charging cable, 3.5mm audio cable,
+          hard carrying case, quick start guide, and warranty card.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h3 class="accordion-heading">
+        <button class="accordion-trigger"
+          aria-expanded="false"
+          aria-controls="panel-shipping"
+          id="trigger-shipping"
+          onclick="toggleAccordion(this)">
+          Shipping & Returns
+          <span class="accordion-icon" aria-hidden="true">&#9660;</span>
+        </button>
+      </h3>
+      <div class="accordion-panel"
+        id="panel-shipping"
+        role="region"
+        aria-labelledby="trigger-shipping"
+        hidden>
+        <div class="accordion-panel-inner">
+          Free shipping on all orders. 30-day hassle-free returns.
+          If you're not completely satisfied, return your headphones for a full refund.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--
+    FIX #3: Changed h6 to h2 for correct heading hierarchy.
+  -->
+  <section class="reviews-section" aria-label="Customer reviews">
+    <h2 class="reviews-title">Customer Reviews</h2>
+
+    <!-- Review Form -->
+    <!--
+      FIX #8: Every input now has a visible <label> with for/id.
+      FIX #9: Error messages linked to inputs via aria-describedby.
+      FIX #10: Form submission provides accessible feedback via aria-live.
+    -->
+    <form class="review-form" onsubmit="submitReview(event)" novalidate>
+      <h3 class="form-title">Write a Review</h3>
+
+      <!--
+        FIX #10: aria-live="polite" region for form submission feedback.
+        When the text inside this region changes, screen readers automatically
+        announce it. "polite" means it waits for the user to finish what
+        they are doing before announcing.
+      -->
+      <div id="formStatus" aria-live="polite">
+        <div class="form-success" id="formSuccess">
+          <span aria-hidden="true">&#10003;</span> Your review has been submitted successfully. Thank you!
+        </div>
+      </div>
+
+      <div class="form-row">
+        <!--
+          FIX #8: Visible <label> associated with input via for/id.
+          When a screen reader focuses this input, it announces
+          "Email address, edit text" instead of just "edit text."
+        -->
+        <label for="reviewEmail" class="form-label">Email address</label>
+        <input type="email" class="form-input" id="reviewEmail"
+          placeholder="e.g., name@example.com"
+          aria-describedby="emailError"
+          autocomplete="email">
+        <!--
+          FIX #9: Error message linked to input via aria-describedby.
+          When this error is visible and the user focuses the input,
+          the screen reader announces: "Email address, edit text,
+          Please enter a valid email address."
+
+          FIX #12: Error includes an icon alongside red color.
+        -->
+        <div class="form-error" id="emailError" role="alert">
+          <span class="form-error-icon" aria-hidden="true">&#9888;</span>
+          Please enter a valid email address
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="reviewTitle" class="form-label">Review title</label>
+        <input type="text" class="form-input" id="reviewTitle"
+          placeholder="e.g., Amazing sound quality"
+          aria-describedby="titleError">
+        <div class="form-error" id="titleError" role="alert">
+          <span class="form-error-icon" aria-hidden="true">&#9888;</span>
+          Please enter a review title
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="reviewText" class="form-label">Your review</label>
+        <textarea class="form-textarea" id="reviewText"
+          placeholder="Share your experience with this product..."
+          aria-describedby="textError"></textarea>
+        <div class="form-error" id="textError" role="alert">
+          <span class="form-error-icon" aria-hidden="true">&#9888;</span>
+          Please write your review
+        </div>
+      </div>
+
+      <button type="submit" class="form-submit-btn">Submit Review</button>
+    </form>
+
+    <!--
+      FIX #19: Reviews list wrapped in an aria-live="polite" region.
+      When a new review is added dynamically, screen readers announce
+      the change so users know their review was posted.
+    -->
+    <div id="reviewsLiveRegion" aria-live="polite">
+      <div id="reviewsList">
+        <article class="review-card">
+          <div class="review-header">
+            <span class="reviewer-name">Sarah M.</span>
+            <span class="review-date"><time datetime="2026-02-15">Feb 15, 2026</time></span>
+          </div>
+          <div class="review-stars" role="img" aria-label="5 out of 5 stars">
+            <span class="star" aria-hidden="true">&#9733;</span>
+            <span class="star" aria-hidden="true">&#9733;</span>
+            <span class="star" aria-hidden="true">&#9733;</span>
+            <span class="star" aria-hidden="true">&#9733;</span>
+            <span class="star" aria-hidden="true">&#9733;</span>
+          </div>
+          <p class="review-text">
+            Absolutely love these headphones! The noise cancellation is incredible
+            and the battery lasts forever. Best purchase I've made this year.
+          </p>
+        </article>
+
+        <article class="review-card">
+          <div class="review-header">
+            <span class="reviewer-name">James K.</span>
+            <span class="review-date"><time datetime="2026-02-10">Feb 10, 2026</time></span>
+          </div>
+          <div class="review-stars" role="img" aria-label="4 out of 5 stars">
+            <span class="star" aria-hidden="true">&#9733;</span>
+            <span class="star" aria-hidden="true">&#9733;</span>
+            <span class="star" aria-hidden="true">&#9733;</span>
+            <span class="star" aria-hidden="true">&#9733;</span>
+            <span class="star empty" aria-hidden="true">&#9733;</span>
+          </div>
+          <p class="review-text">
+            Great sound quality and super comfortable. Only reason for 4 stars
+            instead of 5 is the app could use some UX improvements. But the
+            headphones themselves are fantastic.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!--
+  FIX #2: Footer is now a semantic <footer> landmark.
+  FIX #4 & #21: Footer links are proper <a> elements in <ul>/<li>
+  with descriptive text instead of "Click here" / "Read more."
+-->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <h2 class="footer-heading">Company</h2>
+      <nav aria-label="Company links">
+        <ul class="footer-links">
+          <li><a href="/about">About SoundMax</a></li>
+          <li><a href="/careers">Careers</a></li>
+          <li><a href="/press">Press & Media</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div>
+      <h2 class="footer-heading">Support</h2>
+      <nav aria-label="Support links">
+        <ul class="footer-links">
+          <li><a href="/contact">Contact Us</a></li>
+          <li><a href="/faq">FAQ</a></li>
+          <li><a href="/returns">Returns & Exchanges</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div>
+      <h2 class="footer-heading">Legal</h2>
+      <nav aria-label="Legal links">
+        <ul class="footer-links">
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms of Service</a></li>
+          <li><a href="/accessibility">Accessibility Statement</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2026 SoundMax. All rights reserved.
+  </div>
+</footer>
+
+<!--
+  FIX #15: Modal now has:
+  - role="dialog" and aria-modal="true"
+  - aria-labelledby pointing to the modal title
+  - Focus moves into modal on open
+  - Tab is trapped within modal (cannot escape to background)
+  - Escape key closes modal
+  - Focus returns to trigger element on close
+
+  FIX #16: REMOVED aria-hidden="true" from the modal footer.
+  The buttons inside are interactive and must be accessible.
+-->
+<div class="modal-overlay" id="quickViewModal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modalTitle">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close quick view">
+      &times;
+    </button>
+    <h2 class="modal-title" id="modalTitle">SoundMax Pro &mdash; Quick View</h2>
+    <div class="modal-body">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 300'%3E%3Crect fill='%23f0f0f5' width='500' height='300' rx='8'/%3E%3Cellipse cx='250' cy='140' rx='100' ry='110' fill='%231a1a2e' opacity='0.9'/%3E%3Cellipse cx='250' cy='140' rx='70' ry='80' fill='%23252545'/%3E%3Crect x='150' y='40' width='200' height='20' rx='10' fill='%231a1a2e'/%3E%3Ctext x='250' y='260' text-anchor='middle' font-family='system-ui' font-size='16' fill='%236c63ff' font-weight='600'%3E360%C2%B0 View%3C/text%3E%3C/svg%3E"
+        alt="SoundMax Pro headphones 360 degree view showing the full profile of the over-ear design"
+        width="500" height="300">
+      <p>Premium wireless headphones with active noise cancellation, 30-hour battery,
+        and studio-quality sound. Available in 4 colors.</p>
+    </div>
+    <!-- FIX #16: Removed aria-hidden="true" that was hiding these interactive buttons -->
+    <div class="modal-footer">
+      <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Close</button>
+      <button class="modal-btn modal-btn-primary" onclick="addToCart(); closeModal();">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<!--
+  FIX #19: aria-live region for cart notifications.
+  When the text content changes, screen readers announce it automatically.
+  This is separate from the visual notification so we can control the
+  exact text announced (which may differ from the visual display).
+-->
+<div aria-live="polite" id="cartLiveRegion" class="visually-hidden"></div>
+
+<div class="cart-notification" id="cartNotification" aria-hidden="true">
+  &#10003; Added to cart!
+</div>
+
+<script>
+  // ---- Color Selector ----
+  // FIX #13: Color selection now uses native radio inputs.
+  // Arrow keys navigate between options, Space selects.
+  // No custom keyboard handling needed -- native behavior handles it.
+  function updateColorLabel(colorName) {
+    document.getElementById('selectedColor').textContent = colorName;
+  }
+
+  // ---- Quantity ----
+  function changeQty(delta) {
+    const input = document.getElementById('qtyInput');
+    let val = parseInt(input.value) || 1;
+    val = Math.max(1, Math.min(10, val + delta));
+    input.value = val;
+    // Update ARIA attributes for screen readers
+    input.setAttribute('aria-valuenow', val);
+  }
+
+  // ---- Add to Cart ----
+  // FIX #19: Cart updates are announced via aria-live region
+  function addToCart() {
+    const count = document.getElementById('cartCount');
+    const qty = parseInt(document.getElementById('qtyInput').value) || 1;
+    const newCount = parseInt(count.textContent) + qty;
+    count.textContent = newCount;
+
+    // Update the cart link's aria-label with the new count
+    const cartLink = document.querySelector('.cart-link');
+    cartLink.setAttribute('aria-label', 'Shopping cart, ' + newCount + ' item' + (newCount !== 1 ? 's' : ''));
+
+    // Announce to screen readers via aria-live region
+    const liveRegion = document.getElementById('cartLiveRegion');
+    liveRegion.textContent = 'SoundMax Pro headphones added to cart. Cart total: ' + newCount + ' item' + (newCount !== 1 ? 's' : '') + '.';
+
+    // Show visual notification
+    const notification = document.getElementById('cartNotification');
+    notification.classList.add('show');
+    setTimeout(function() {
+      notification.classList.remove('show');
+    }, 2500);
+  }
+
+  // ---- Accordion ----
+  // FIX #18: Accordion uses aria-expanded and the hidden attribute.
+  // The button toggles aria-expanded and the panel's hidden attribute.
+  function toggleAccordion(button) {
+    var expanded = button.getAttribute('aria-expanded') === 'true';
+    button.setAttribute('aria-expanded', String(!expanded));
+    var panelId = button.getAttribute('aria-controls');
+    var panel = document.getElementById(panelId);
+
+    if (expanded) {
+      panel.hidden = true;
+    } else {
+      panel.hidden = false;
+    }
+  }
+
+  // ---- Modal ----
+  // FIX #15: Complete focus management for modal
+  var modalTrigger = null;
+  var trapFocusHandler = null;
+
+  function openModal() {
+    var modal = document.getElementById('quickViewModal');
+
+    // Save the element that triggered the modal so we can return focus later
+    modalTrigger = document.getElementById('quickViewTrigger');
+
+    // Show the modal
+    modal.classList.add('open');
+
+    // Prevent scrolling on the body while modal is open
+    document.body.style.overflow = 'hidden';
+
+    // Find all focusable elements inside the modal
+    var focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    var modalContent = modal.querySelector('.modal');
+    var focusableElements = modalContent.querySelectorAll(focusableSelectors);
+    var firstFocusable = focusableElements[0];
+    var lastFocusable = focusableElements[focusableElements.length - 1];
+
+    // Move focus to the first focusable element (the close button)
+    setTimeout(function() {
+      firstFocusable.focus();
+    }, 50);
+
+    // Trap Tab within the modal and handle Escape
+    trapFocusHandler = function(e) {
+      // Escape key closes the modal
+      if (e.key === 'Escape') {
+        closeModal();
+        return;
+      }
+
+      // Only handle Tab key for focus trapping
+      if (e.key !== 'Tab') return;
+
+      if (e.shiftKey) {
+        // Shift+Tab: if focus is on first element, wrap to last
+        if (document.activeElement === firstFocusable) {
+          e.preventDefault();
+          lastFocusable.focus();
+        }
+      } else {
+        // Tab: if focus is on last element, wrap to first
+        if (document.activeElement === lastFocusable) {
+          e.preventDefault();
+          firstFocusable.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', trapFocusHandler);
+  }
+
+  function closeModal() {
+    var modal = document.getElementById('quickViewModal');
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+
+    // Remove the focus trap event listener
+    if (trapFocusHandler) {
+      document.removeEventListener('keydown', trapFocusHandler);
+      trapFocusHandler = null;
+    }
+
+    // Return focus to the element that triggered the modal.
+    // This is critical -- without it, focus gets lost and
+    // keyboard users are stranded at an unknown position on the page.
+    if (modalTrigger) {
+      modalTrigger.focus();
+      modalTrigger = null;
+    }
+  }
+
+  // Close modal when clicking the backdrop (overlay outside the modal)
+  document.getElementById('quickViewModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeModal();
+    }
+  });
+
+  // ---- Review Form ----
+  // FIX #9, #10: Error messages linked via aria-describedby,
+  // accessible validation feedback, and aria-invalid on fields
+  function submitReview(event) {
+    event.preventDefault();
+
+    var email = document.getElementById('reviewEmail');
+    var title = document.getElementById('reviewTitle');
+    var text = document.getElementById('reviewText');
+    var hasError = false;
+
+    // Reset all error states
+    document.querySelectorAll('.form-error').forEach(function(el) {
+      el.classList.remove('visible');
+    });
+    document.querySelectorAll('.form-input, .form-textarea').forEach(function(el) {
+      el.removeAttribute('aria-invalid');
+    });
+    document.getElementById('formSuccess').classList.remove('visible');
+
+    // Validate email
+    if (!email.value || !email.value.includes('@')) {
+      document.getElementById('emailError').classList.add('visible');
+      email.setAttribute('aria-invalid', 'true');
+      hasError = true;
+    }
+
+    // Validate title
+    if (!title.value.trim()) {
+      document.getElementById('titleError').classList.add('visible');
+      title.setAttribute('aria-invalid', 'true');
+      hasError = true;
+    }
+
+    // Validate review text
+    if (!text.value.trim()) {
+      document.getElementById('textError').classList.add('visible');
+      text.setAttribute('aria-invalid', 'true');
+      hasError = true;
+    }
+
+    if (hasError) {
+      // Focus the first invalid field so screen readers announce the error
+      var firstInvalid = document.querySelector('[aria-invalid="true"]');
+      if (firstInvalid) firstInvalid.focus();
+      return;
+    }
+
+    // Add the new review to the page
+    var reviewsList = document.getElementById('reviewsList');
+    var newReview = document.createElement('article');
+    newReview.className = 'review-card';
+    newReview.innerHTML =
+      '<div class="review-header">' +
+        '<span class="reviewer-name">You</span>' +
+        '<span class="review-date"><time datetime="' + new Date().toISOString().split('T')[0] + '">Just now</time></span>' +
+      '</div>' +
+      '<div class="review-stars" role="img" aria-label="5 out of 5 stars">' +
+        '<span class="star" aria-hidden="true">&#9733;</span>' +
+        '<span class="star" aria-hidden="true">&#9733;</span>' +
+        '<span class="star" aria-hidden="true">&#9733;</span>' +
+        '<span class="star" aria-hidden="true">&#9733;</span>' +
+        '<span class="star" aria-hidden="true">&#9733;</span>' +
+      '</div>' +
+      '<p class="review-text">' + escapeHTML(text.value) + '</p>';
+    reviewsList.insertBefore(newReview, reviewsList.firstChild);
+
+    // Show success message (announced via aria-live on parent)
+    document.getElementById('formSuccess').classList.add('visible');
+
+    // Clear form
+    email.value = '';
+    title.value = '';
+    text.value = '';
+  }
+
+  // Prevent XSS when inserting user content
+  function escapeHTML(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+</script>
+
+</body>
+</html>
