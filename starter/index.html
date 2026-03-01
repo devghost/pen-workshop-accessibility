@@ -1,19 +1,11 @@
 <!DOCTYPE html>
-<!-- VIOLATION #1: No lang attribute on <html> -->
 <html>
 <head>
-  <!-- VIOLATION #1: No <title> element -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* ========================================
-       BROKEN PRODUCT PAGE - Workshop Exercise
-       This page contains 23 intentional
-       accessibility violations. Your job is
-       to find and fix every single one.
-       ======================================== */
+    /* SoundMax Pro - Product Page Styles */
 
-    /* VIOLATION #14: Removes ALL focus indicators globally */
     *:focus {
       outline: none;
     }
@@ -54,7 +46,6 @@
       color: #6c63ff;
     }
 
-    /* VIOLATION #4: Navigation links are divs, not <ul><li><a> */
     .nav-links {
       display: flex;
       gap: 1.5rem;
@@ -75,6 +66,10 @@
       position: relative;
       cursor: pointer;
       font-size: 1.3rem;
+      background: none;
+      border: none;
+      color: #fff;
+      padding: 0;
     }
 
     .cart-count {
@@ -169,11 +164,7 @@
     }
 
     .breadcrumb span {
-      cursor: pointer;
-    }
-
-    .breadcrumb span:hover {
-      text-decoration: underline;
+      color: #888;
     }
 
     .product-title {
@@ -183,7 +174,6 @@
       color: #1a1a2e;
     }
 
-    /* VIOLATION #12: Star rating uses color alone */
     .star-rating {
       display: flex;
       align-items: center;
@@ -205,7 +195,6 @@
       margin-left: 0.5rem;
     }
 
-    /* VIOLATION #17: Price has aria-hidden="true" on visible content */
     .price-section {
       display: flex;
       align-items: baseline;
@@ -233,14 +222,12 @@
       font-weight: 600;
     }
 
-    /* VIOLATION #11: Low contrast text */
     .product-description {
       font-size: 0.95rem;
       color: #999;
       line-height: 1.7;
     }
 
-    /* VIOLATION #12: "In Stock" uses color alone */
     .stock-status {
       font-size: 0.9rem;
       font-weight: 600;
@@ -251,7 +238,6 @@
     }
 
     /* ---- Color Selector ---- */
-    /* VIOLATION #13: Not keyboard accessible */
     .color-selector {
       display: flex;
       flex-direction: column;
@@ -269,7 +255,6 @@
       gap: 0.75rem;
     }
 
-    /* VIOLATION #23: Touch target too small (20x20px) */
     .color-swatch {
       width: 20px;
       height: 20px;
@@ -326,7 +311,6 @@
       background: transparent;
     }
 
-    /* VIOLATION #5: This is styled like a button but built as a div */
     .add-to-cart-btn {
       display: inline-flex;
       align-items: center;
@@ -380,7 +364,6 @@
     }
 
     /* ---- Accordion / FAQ ---- */
-    /* VIOLATION #18: No ARIA roles or states */
     .accordion {
       margin-bottom: 3rem;
     }
@@ -474,7 +457,6 @@
       margin-bottom: 1rem;
     }
 
-    /* VIOLATION #8: Inputs rely on placeholder only, no <label> */
     .form-input {
       width: 100%;
       padding: 0.7rem 1rem;
@@ -567,7 +549,6 @@
     }
 
     /* ---- Modal / Quick View ---- */
-    /* VIOLATION #15: No focus management */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -593,7 +574,6 @@
       animation: modalIn 0.3s ease;
     }
 
-    /* VIOLATION #23: Close button too small */
     .modal-close {
       position: absolute;
       top: 0.75rem;
@@ -726,7 +706,6 @@
     }
 
     /* ---- Background animation ---- */
-    /* VIOLATION #20: No prefers-reduced-motion support */
     .floating-shapes {
       position: fixed;
       top: 0;
@@ -802,7 +781,6 @@
     }
 
     /* ---- Autoplay Video ---- */
-    /* VIOLATION #22: Autoplay with no pause control */
     .promo-video-section {
       margin-bottom: 3rem;
       border-radius: 12px;
@@ -815,7 +793,7 @@
       display: block;
     }
 
-    /* ---- Visually hidden (but we intentionally don't include a skip link) ---- */
+    /* ---- Visually Hidden Utility ---- */
     .sr-only {
       position: absolute;
       width: 1px;
@@ -831,22 +809,17 @@
 </head>
 <body>
 
-<!-- VIOLATION #16: No skip navigation link -->
-
-<!-- Background animation - VIOLATION #20 -->
+<!-- Background animation -->
 <div class="floating-shapes">
   <div class="shape shape-1"></div>
   <div class="shape shape-2"></div>
   <div class="shape shape-3"></div>
 </div>
 
-<!-- VIOLATION #2: Everything uses <div>, no semantic landmarks -->
-
 <!-- Header -->
 <div class="site-header">
   <div class="logo">Sound<span>Max</span></div>
 
-  <!-- VIOLATION #4: Nav links as divs, not <nav><ul><li><a> -->
   <div class="nav-links">
     <div class="nav-link" onclick="location.href='#'">Home</div>
     <div class="nav-link" onclick="location.href='#'">Products</div>
@@ -854,10 +827,10 @@
     <div class="nav-link" onclick="location.href='#'">About</div>
   </div>
 
-  <div class="cart-icon" onclick="openCart()">
+  <button class="cart-icon" onclick="openCart()" aria-label="Shopping cart">
     &#128722;
     <div class="cart-count" id="cartCount">0</div>
-  </div>
+  </button>
 </div>
 
 <!-- Main Content -->
@@ -867,18 +840,17 @@
     <!-- Product Gallery -->
     <div class="product-gallery">
       <div class="main-image">
-        <!-- VIOLATION #6: No alt attribute -->
         <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 500'%3E%3Crect fill='%23f0f0f5' width='600' height='500'/%3E%3Cellipse cx='300' cy='220' rx='160' ry='170' fill='%231a1a2e' opacity='0.9'/%3E%3Cellipse cx='300' cy='220' rx='120' ry='130' fill='%23252545'/%3E%3Cellipse cx='300' cy='220' rx='80' ry='85' fill='%231a1a2e'/%3E%3Crect x='140' y='50' width='320' height='30' rx='15' fill='%231a1a2e'/%3E%3Cellipse cx='210' cy='220' rx='35' ry='50' fill='%232a2a4a'/%3E%3Cellipse cx='390' cy='220' rx='35' ry='50' fill='%232a2a4a'/%3E%3Ctext x='300' y='420' text-anchor='middle' font-family='system-ui' font-size='24' fill='%236c63ff' font-weight='700'%3ESoundMax Pro%3C/text%3E%3Ctext x='300' y='450' text-anchor='middle' font-family='system-ui' font-size='14' fill='%23999'%3EWireless Over-Ear Headphones%3C/text%3E%3C/svg%3E"
           width="600" height="500">
       </div>
 
       <div class="thumbnail-row">
         <img class="thumbnail active" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 70'%3E%3Crect fill='%23f0f0f5' width='70' height='70' rx='4'/%3E%3Cellipse cx='35' cy='32' rx='18' ry='19' fill='%231a1a2e'/%3E%3Crect x='17' y='13' width='36' height='4' rx='2' fill='%231a1a2e'/%3E%3C/svg%3E"
-          width="70" height="70">
+          alt="" width="70" height="70">
         <img class="thumbnail" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 70'%3E%3Crect fill='%23f0f0f5' width='70' height='70' rx='4'/%3E%3Cellipse cx='35' cy='35' rx='20' ry='20' fill='%231a56db' opacity='0.3'/%3E%3Cellipse cx='35' cy='32' rx='15' ry='16' fill='%231a1a2e'/%3E%3C/svg%3E"
-          width="70" height="70">
+          alt="" width="70" height="70">
         <img class="thumbnail" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 70'%3E%3Crect fill='%23f0f0f5' width='70' height='70' rx='4'/%3E%3Crect x='15' y='20' width='40' height='30' rx='4' fill='%231a1a2e'/%3E%3Ccircle cx='35' cy='35' r='8' fill='%236c63ff' opacity='0.5'/%3E%3C/svg%3E"
-          width="70" height="70">
+          alt="" width="70" height="70">
       </div>
 
       <button class="quick-view-btn" onclick="openModal()">Quick View &mdash; Full Details</button>
@@ -890,10 +862,8 @@
         <span>Home</span> &rsaquo; <span>Audio</span> &rsaquo; <span>Headphones</span>
       </div>
 
-      <!-- VIOLATION #3: Heading skips from h1 to h4 -->
       <h1 class="product-title">SoundMax Pro Wireless Headphones</h1>
 
-      <!-- VIOLATION #12: Star rating uses color alone, no text equivalent -->
       <div class="star-rating">
         <span class="star">&#9733;</span>
         <span class="star">&#9733;</span>
@@ -903,14 +873,12 @@
         <span class="review-count">(128 reviews)</span>
       </div>
 
-      <!-- VIOLATION #17: aria-hidden="true" on visible, critical price content -->
       <div class="price-section" aria-hidden="true">
         <span class="current-price">$249.99</span>
         <span class="original-price">$349.99</span>
         <span class="discount-badge">Save 29%</span>
       </div>
 
-      <!-- VIOLATION #11: Low contrast text - #999 on #f8f9fa background -->
       <p class="product-description">
         Experience studio-quality sound with the SoundMax Pro. Featuring 40mm custom drivers,
         active noise cancellation, and up to 30 hours of battery life. The ergonomic over-ear
@@ -918,10 +886,8 @@
         connection lets you seamlessly switch between devices.
       </p>
 
-      <!-- VIOLATION #12: Color-only stock status -->
       <div class="stock-status in-stock">In Stock</div>
 
-      <!-- VIOLATION #13: Color selector not keyboard-accessible -->
       <div class="color-selector">
         <div class="color-label">Color: <span id="selectedColor">Midnight Black</span></div>
         <div class="color-options">
@@ -935,11 +901,10 @@
       <div class="quantity-row">
         <div class="quantity-control">
           <button class="qty-btn" onclick="changeQty(-1)">-</button>
-          <input class="qty-value" type="text" value="1" id="qtyInput" readonly>
+          <input class="qty-value" type="text" value="1" id="qtyInput" readonly aria-label="Quantity">
           <button class="qty-btn" onclick="changeQty(1)">+</button>
         </div>
 
-        <!-- VIOLATION #5: div used instead of button -->
         <div class="add-to-cart-btn" onclick="addToCart()">
           &#128722; Add to Cart
         </div>
@@ -947,13 +912,11 @@
     </div>
   </div>
 
-  <!-- VIOLATION #7: Decorative image with redundant alt text -->
   <div class="divider">
     <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 20'%3E%3Cline x1='0' y1='10' x2='600' y2='10' stroke='%23e5e7eb' stroke-width='1'/%3E%3Ccircle cx='300' cy='10' r='4' fill='%236c63ff'/%3E%3C/svg%3E"
       alt="decorative-line.png" width="600" height="20" style="max-width:100%;height:auto;">
   </div>
 
-  <!-- VIOLATION #22: Autoplay video with no pause control -->
   <div class="promo-video-section">
     <!-- Using a colored rectangle SVG as a "video" stand-in for the exercise -->
     <video autoplay loop muted playsinline>
@@ -963,13 +926,10 @@
     <div style="background: linear-gradient(135deg, #1a1a2e, #6c63ff); padding: 3rem; text-align: center; color: #fff;">
       <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">Experience Pure Sound</div>
       <div style="font-size: 0.95rem; opacity: 0.8;">Watch how SoundMax Pro delivers studio-quality audio anywhere.</div>
-      <!-- No pause/stop control provided -->
     </div>
   </div>
 
   <!-- Accordion FAQ Section -->
-  <!-- VIOLATION #3: Heading jumps to h4 (skipping h2 and h3) -->
-  <!-- VIOLATION #18: No ARIA attributes on accordion -->
   <div class="accordion">
     <h4 class="accordion-title">Product Details</h4>
 
@@ -1019,14 +979,10 @@
   </div>
 
   <!-- Reviews Section -->
-  <!-- VIOLATION #3: Heading jumps to h6 -->
   <div class="reviews-section">
     <h6 class="reviews-title">Customer Reviews</h6>
 
     <!-- Review Form -->
-    <!-- VIOLATION #8: Inputs have no <label> elements -->
-    <!-- VIOLATION #9: Error messages not linked to inputs -->
-    <!-- VIOLATION #10: No accessible validation feedback -->
     <div class="review-form">
       <div class="form-title">Write a Review</div>
 
@@ -1048,7 +1004,6 @@
       <button class="form-submit-btn" onclick="submitReview()">Submit Review</button>
     </div>
 
-    <!-- VIOLATION #19: Dynamic content area with no aria-live -->
     <div id="reviewsList">
       <div class="review-card">
         <div class="review-header">
@@ -1090,14 +1045,12 @@
   </div>
 </div>
 
-<!-- VIOLATION #2: Footer is a div, not <footer> -->
-<!-- VIOLATION #21: Vague link text -->
+<!-- Footer -->
 <div class="site-footer">
   <div class="footer-grid">
     <div>
       <div class="footer-heading">Company</div>
       <div class="footer-links">
-        <!-- VIOLATION #21: "Click here" links with no context -->
         <div class="footer-link" onclick="location.href='#'">Click here</div>
         <div class="footer-link" onclick="location.href='#'">Read more</div>
         <div class="footer-link" onclick="location.href='#'">Click here</div>
@@ -1125,8 +1078,7 @@
   </div>
 </div>
 
-<!-- VIOLATION #15: Modal with no focus management -->
-<!-- VIOLATION #16: aria-hidden on interactive content inside -->
+<!-- Quick View Modal -->
 <div class="modal-overlay" id="quickViewModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">&times;</button>
@@ -1136,7 +1088,6 @@
         alt="product quick view image" width="500" height="300">
       <p>Premium wireless headphones with active noise cancellation, 30-hour battery,
         and studio-quality sound. Available in 4 colors.</p>
-      <!-- VIOLATION #16: aria-hidden="true" on interactive buttons -->
       <div class="modal-footer" aria-hidden="true">
         <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Close</button>
         <button class="modal-btn modal-btn-primary" onclick="addToCart(); closeModal();">Add to Cart</button>
@@ -1145,14 +1096,13 @@
   </div>
 </div>
 
-<!-- VIOLATION #19: No aria-live region for dynamic cart updates -->
+<!-- Cart notification -->
 <div class="cart-notification" id="cartNotification">
   &#10003; Added to cart!
 </div>
 
 <script>
   // ---- Color Selector ----
-  // VIOLATION #13: Click only, no keyboard support
   function selectColor(element, colorName) {
     document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
     element.classList.add('selected');
@@ -1168,26 +1118,23 @@
   }
 
   // ---- Add to Cart ----
-  // VIOLATION #19: No screen reader announcement
   function addToCart() {
     const count = document.getElementById('cartCount');
     const qty = parseInt(document.getElementById('qtyInput').value) || 1;
     count.textContent = parseInt(count.textContent) + qty;
 
-    // Show visual notification (not announced to screen readers)
+    // Show visual notification
     const notification = document.getElementById('cartNotification');
     notification.classList.add('show');
     setTimeout(() => notification.classList.remove('show'), 2500);
   }
 
   // ---- Accordion ----
-  // VIOLATION #18: No ARIA, no keyboard support
   function toggleAccordion(item) {
     item.classList.toggle('open');
   }
 
   // ---- Modal ----
-  // VIOLATION #15: No focus trap, no escape key, no focus return
   function openModal() {
     document.getElementById('quickViewModal').classList.add('open');
   }
@@ -1197,7 +1144,6 @@
   }
 
   // ---- Review Form ----
-  // VIOLATION #9, #10: Error messages not linked, no accessible feedback
   function submitReview() {
     const email = document.getElementById('reviewEmail').value;
     const title = document.getElementById('reviewTitle').value;
@@ -1224,7 +1170,7 @@
 
     if (hasError) return;
 
-    // Add review to page (VIOLATION #19: not announced via aria-live)
+    // Add review to page
     const reviewsList = document.getElementById('reviewsList');
     const newReview = document.createElement('div');
     newReview.className = 'review-card';

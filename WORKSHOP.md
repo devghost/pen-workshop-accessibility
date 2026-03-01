@@ -13,9 +13,11 @@ A hands-on guide to finding and fixing accessibility violations on a real produc
 7. [Part 1: Automated Audit](#part-1----automated-audit-40-min)
 8. [Part 2: Manual Testing](#part-2----manual-testing-50-min)
 9. [Part 3: Triage and Prioritize](#part-3----triage-and-prioritize-15-min)
-10. [Part 3: Fix the Issues](#part-3----fix-the-issues-90-min)
-11. [Part 4: Re-audit and Reflect](#part-4----re-audit-and-reflect-30-min)
+10. [Part 4: Fix the Issues](#part-4----fix-the-issues-90-min)
+11. [Part 5: Re-audit and Reflect](#part-5----re-audit-and-reflect-30-min)
 12. [Key Takeaways](#key-takeaways)
+13. [Quick Reference](#quick-reference)
+14. [Common Mistakes](#common-mistakes)
 
 ---
 
@@ -35,6 +37,8 @@ A hands-on guide to finding and fixing accessibility violations on a real produc
 - Accessibility Insights for Web extension installed (free, optional but recommended)
 
 ## What You'll Learn
+
+> **The First Rule of ARIA:** If you can use a native HTML element or attribute with the semantics and behavior you require already built in, do that instead of adding ARIA roles and properties to a non-semantic element. ARIA should be a last resort, not a first tool. Keep this in mind throughout the entire workshop.
 
 - Semantic HTML and why it is the foundation of accessibility
 - The first rule of ARIA: use native HTML elements before reaching for ARIA
@@ -76,6 +80,8 @@ Open `starter/index.html` in your browser. It is a single-file e-commerce produc
 
 **Complete violation list with user impact:**
 
+*All references are to WCAG 2.2.*
+
 | # | Category | Violation | User Impact | WCAG |
 |---|----------|-----------|-------------|------|
 | 1 | Structure | No `lang` attribute on `<html>`, no `<title>` | Screen readers do not know what language to use for pronunciation; browser tabs show the URL instead of a page name. | 3.1.1, 2.4.2 |
@@ -97,7 +103,7 @@ Open `starter/index.html` in your browser. It is a single-file e-commerce produc
 | 17 | ARIA | `aria-hidden="true"` placed on the product price element (visible and critical) | Screen reader users cannot hear the price of the product. | 4.1.2 |
 | 18 | ARIA | Accordion has no `role`, `aria-expanded`, or `aria-controls` | Screen reader users do not know the sections are expandable, what state they are in, or how to operate them. | 4.1.2 |
 | 19 | Dynamic | "Added to cart" confirmation message appears visually but is not announced via `aria-live` | Screen reader users click "Add to Cart" and hear nothing. They do not know if their action succeeded. | 4.1.3 |
-| 20 | Motion | CSS animations play unconditionally with no `prefers-reduced-motion` support | Users with vestibular disorders may experience dizziness or nausea. | 2.3.3 |
+| 20 | Motion | CSS animations play unconditionally with no `prefers-reduced-motion` support | Users with vestibular disorders may experience dizziness or nausea. | 2.2.2 |
 | 21 | Links | Footer contains "Click here" and "Read more" links with no context | Screen reader users who navigate by link list hear "Click here, Click here, Read more" with no indication of where the links go. | 2.4.4 |
 | 22 | Media | Background video autoplays with no pause/stop control | Users cannot stop distracting motion; violates both motion and user control requirements. | 1.4.2, 2.2.2 |
 | 23 | Touch | Interactive elements (close button, color swatches) are smaller than 24x24px | Users with motor impairments on touch devices cannot reliably activate these controls. | 2.5.8 |
@@ -225,9 +231,13 @@ Use this template to document every issue found:
 2. Navigate by headings (press H repeatedly). Is the heading hierarchy logical? Any skipped levels?
 3. Navigate by landmarks (press D). Can you jump between header, nav, main, footer?
 4. Navigate to the product image. Is it described? What does the screen reader say?
+   - *Example of what you will hear:* The screen reader says **"graphic"** and nothing else, because there is no alt text. A sighted user sees a product photo; a blind user gets zero information.
 5. Navigate to the "Add to Cart" element. Is it announced as a button? Does it have a label?
+   - *Example:* Because it is a `<div>`, the screen reader may say **"Add to Cart"** as plain text -- it will NOT say **"Add to Cart, button"**, so the user does not know it is interactive.
 6. Navigate to the price. Can you hear the price?
+   - *Example:* The price section has `aria-hidden="true"`, so the screen reader **skips it entirely**. The user hears nothing about the cost.
 7. Navigate to the review form. Are the form fields labeled? When you focus each field, do you know what to enter?
+   - *Example:* Without labels, the screen reader says **"edit text"** with no indication of what the field is for.
 8. Trigger an error. Is the error message announced?
 9. Open the accordion. Is the expanded/collapsed state announced?
 10. Add an item to cart. Is the cart update announced?
@@ -260,6 +270,7 @@ Before fixing anything, prioritize your findings by user impact:
 - Insufficient color contrast (cannot read content)
 - No aria-live for dynamic content (does not know if actions succeeded)
 - Price hidden from screen readers (cannot know the cost)
+- No page title (screen reader users cannot identify the page; browser tabs show URL)
 
 **Priority 3 -- Moderate (user experience degraded but task completable):**
 - Skipped heading levels
@@ -271,13 +282,12 @@ Before fixing anything, prioritize your findings by user impact:
 **Priority 4 -- Minor (polish and best practices):**
 - prefers-reduced-motion
 - Touch target sizes
-- No page title
 
 **Discussion:** "In real development, you fix Priority 1 issues before shipping. Priority 2 issues are fixed in the current sprint. Priority 3 in the next sprint. Priority 4 in the backlog. For this workshop, we will fix everything."
 
 ---
 
-## Part 3 -- Fix the Issues (90 min)
+## Part 4 -- Fix the Issues (90 min)
 
 **Important framing before starting:**
 
@@ -331,6 +341,9 @@ Before fixing anything, prioritize your findings by user impact:
   - Good: `alt="Search"`
 
 **Form fixes:**
+
+0. Change the review form container from `<div class="review-form">` to `<form class="review-form" onsubmit="submitReview(event)" novalidate>`. A `<div>` has no form semantics -- screen readers cannot identify the region as a form, and native form features (like Enter to submit) do not work. The `novalidate` attribute disables browser-default validation so you can provide your own accessible error messages via `aria-describedby` and `aria-invalid`.
+
 1. Add a visible `<label>` element for every input:
 
 ```html
@@ -347,7 +360,7 @@ Before fixing anything, prioritize your findings by user impact:
 ```html
 <label for="review-email">Email address</label>
 <input type="email" id="review-email" aria-describedby="email-error" aria-invalid="true">
-<span id="email-error" role="alert">Please enter a valid email address</span>
+<span id="email-error" role="status">Please enter a valid email address</span>
 ```
 
 3. Add form submission feedback using an `aria-live` region:
@@ -362,6 +375,10 @@ function submitForm() {
   document.getElementById('form-status').textContent = 'Review submitted successfully. Thank you!';
 }
 ```
+
+**Checkpoint: Re-run axe DevTools now.** Your score should have improved significantly after fixing document structure, semantics, images, and forms. Many of the "Critical" and "Serious" findings from Part 1 should now be resolved. Note which issues remain -- these will guide your work in the next rounds.
+
+---
 
 ### Round 3 -- Color and Visual (15 min)
 
@@ -445,27 +462,37 @@ function toggleAccordion(button) {
 **Fix 3: Modal focus management**
 
 ```js
-function openModal(modal, triggerElement) {
-  modal.style.display = 'flex';
-  modal.setAttribute('role', 'dialog');
-  modal.setAttribute('aria-modal', 'true');
+var modalTrigger = null;
+var trapFocusHandler = null;
 
-  // Save the element that opened the modal so we can return focus later
-  modal._triggerElement = triggerElement;
+function openModal() {
+  var modal = document.getElementById('quickViewModal');
+
+  // Save the element that triggered the modal so we can return focus later
+  modalTrigger = document.getElementById('quickViewTrigger');
+
+  // Show the modal (uses CSS: .modal-overlay.open { display: flex; })
+  modal.classList.add('open');
+
+  // Prevent scrolling on the body while modal is open
+  document.body.style.overflow = 'hidden';
 
   // Find all focusable elements inside the modal
-  const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-  const focusableElements = modal.querySelectorAll(focusableSelectors);
-  const firstFocusable = focusableElements[0];
-  const lastFocusable = focusableElements[focusableElements.length - 1];
+  var focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+  var modalContent = modal.querySelector('.modal');
+  var focusableElements = modalContent.querySelectorAll(focusableSelectors);
+  var firstFocusable = focusableElements[0];
+  var lastFocusable = focusableElements[focusableElements.length - 1];
 
-  // Move focus to the first focusable element
-  firstFocusable.focus();
+  // Move focus to the first focusable element (the close button)
+  setTimeout(function() {
+    firstFocusable.focus();
+  }, 50);
 
-  // Trap Tab within the modal
-  modal.addEventListener('keydown', function trapFocus(e) {
+  // Trap Tab within the modal and handle Escape
+  trapFocusHandler = function(e) {
     if (e.key === 'Escape') {
-      closeModal(modal);
+      closeModal();
       return;
     }
     if (e.key !== 'Tab') return;
@@ -481,14 +508,26 @@ function openModal(modal, triggerElement) {
         firstFocusable.focus();
       }
     }
-  });
+  };
+
+  document.addEventListener('keydown', trapFocusHandler);
 }
 
-function closeModal(modal) {
-  modal.style.display = 'none';
+function closeModal() {
+  var modal = document.getElementById('quickViewModal');
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+
+  // Remove the focus trap event listener
+  if (trapFocusHandler) {
+    document.removeEventListener('keydown', trapFocusHandler);
+    trapFocusHandler = null;
+  }
+
   // Return focus to the trigger element
-  if (modal._triggerElement) {
-    modal._triggerElement.focus();
+  if (modalTrigger) {
+    modalTrigger.focus();
+    modalTrigger = null;
   }
 }
 ```
@@ -551,7 +590,7 @@ If the visual design requires short text, use `aria-label` to provide context:
 
 ---
 
-## Part 4 -- Re-audit and Reflect (30 min)
+## Part 5 -- Re-audit and Reflect (30 min)
 
 **Re-run automated tools (10 min):**
 1. Run Lighthouse again -- compare before/after scores (target: 95+)
@@ -585,3 +624,54 @@ If the visual design requires short text, use `aria-label` to provide context:
 4. **Accessibility is not a feature -- it is a quality attribute.** Like security or performance, it should be part of every task, not a separate ticket.
 5. **Every fix has a human behind it.** A missing alt attribute means a blind person cannot see your product. A missing focus indicator means a keyboard user is lost on your page. Keep the human impact in mind.
 6. **Prevention is cheaper than remediation.** Catching an issue in code review costs minutes. Catching it after launch costs hours of refactoring plus the users you have already excluded.
+
+---
+
+## Quick Reference
+
+### Common ARIA Attributes
+
+| Attribute | Purpose | Example |
+|---|---|---|
+| `aria-label` | Provides an accessible name when visible text is absent | `<button aria-label="Close">X</button>` |
+| `aria-labelledby` | Points to the ID of an element that labels this one | `<div role="dialog" aria-labelledby="modal-title">` |
+| `aria-describedby` | Points to the ID of an element that describes this one (e.g., error messages, instructions) | `<input aria-describedby="email-error">` |
+| `aria-expanded` | Indicates whether a collapsible section is open or closed | `<button aria-expanded="false">` |
+| `aria-hidden` | Hides content from screen readers (use only on truly decorative/redundant content) | `<span aria-hidden="true">&#9733;</span>` |
+| `aria-live` | Makes a region announce dynamic changes (`polite` waits, `assertive` interrupts) | `<div aria-live="polite" id="status">` |
+| `aria-invalid` | Marks a form field as having an invalid value | `<input aria-invalid="true">` |
+| `aria-current` | Indicates the current item in a set (e.g., current page in breadcrumb) | `<span aria-current="page">` |
+| `role` | Overrides the element's implicit role (use sparingly -- prefer semantic HTML) | `<div role="dialog">` |
+
+### Contrast Ratio Requirements (WCAG 2.2 AA)
+
+| Content Type | Minimum Ratio | Example |
+|---|---|---|
+| Normal text (under 18pt / 24px) | 4.5:1 | Body copy, labels, form text |
+| Large text (18pt+ bold or 24px+ regular) | 3:1 | Headings, large UI text |
+| UI components and graphical objects | 3:1 | Borders, icons, focus indicators |
+
+### Keyboard Shortcut Summary
+
+| Key | Action |
+|---|---|
+| `Tab` | Move to next focusable element |
+| `Shift + Tab` | Move to previous focusable element |
+| `Enter` | Activate links and buttons |
+| `Space` | Activate buttons, toggle checkboxes, select radio buttons |
+| `Escape` | Close modals, dismiss popups |
+| `Arrow keys` | Navigate within composite widgets (radio groups, tabs, dropdowns) |
+
+---
+
+## Common Mistakes
+
+1. **Using `role="button"` on a `<div>` instead of using `<button>`.** Adding `role="button"` makes the screen reader announce "button," but it does NOT add keyboard focusability (`tabindex` needed), Enter/Space activation (`onkeydown` needed), or form submission behavior. A native `<button>` gives you all of this for free.
+
+2. **Removing focus outlines globally (`*:focus { outline: none; }`) without providing a replacement.** This makes the page invisible to keyboard users. If you must customize focus styles, use `:focus-visible` and provide a visible alternative (e.g., a colored outline or box-shadow).
+
+3. **Using `aria-label` on a non-interactive `<div>` or `<span>`.** `aria-label` only works reliably on interactive elements (links, buttons, inputs) and landmark elements. On a generic `<div>`, most screen readers ignore it entirely.
+
+4. **Putting `aria-hidden="true"` on visible, meaningful content.** `aria-hidden` removes content from the accessibility tree. If sighted users can see it and need it (like a price or a button), screen reader users need it too. Only use `aria-hidden` on purely decorative or redundant content.
+
+5. **Using placeholder text as a substitute for labels.** Placeholder text disappears when the user starts typing, leaving them unable to remember what the field is for. It often has insufficient contrast, and screen readers may not reliably announce it as the field's accessible name. Always use a visible `<label>` element.
